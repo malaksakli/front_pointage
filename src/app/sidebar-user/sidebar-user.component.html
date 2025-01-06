@@ -1,0 +1,54 @@
+<!-- Nav for non-admin users -->
+<ul class="nav flex-column  p-3 bg-dark rounded shadow-lg " *ngIf="!isAdmin">
+  <li class="nav-item">
+    <a class="nav-link d-flex align-items-center text-white p-2 mb-3 rounded hover-effect" routerLink="/user/liste-employee">
+      <i class='bx bx-list-ul me-2'></i>
+      <span class="link_name">Liste Employé</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link d-flex align-items-center text-white p-2 mb-3 rounded hover-effect" routerLink="/user/recap">
+      <i class='bx bx-receipt me-2'></i>
+      <span class="link_name">Récap</span>
+    </a>
+  </li>
+</ul>
+
+<!-- Nav for admin users -->
+<ul class="nav flex-column  p-3 rounded shadow-sm" *ngIf="isAdmin">
+
+  <li class="nav-item">
+    <a class="nav-link d-flex align-items-center text-white p-2 mb-3 rounded hover-effect" routerLink="/admin/liste-utlisateurs">
+      <i class='bx bx-list-ul me-2'></i>
+      <span class="link_name">Liste Utilisateurs</span>
+    </a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link d-flex align-items-center text-white p-2 mb-3 rounded hover-effect" routerLink="/admin/liste-employee">
+      <i class='bx bx-list-ul me-2'></i>
+      <span class="link_name">Liste Employé</span>
+    </a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link d-flex align-items-center text-white p-2 mb-3 rounded hover-effect" routerLink="/admin/Pointage">
+      <i class='bx bxs-calendar-alt me-2'></i>
+      <span class="link_name">Pointage</span>
+    </a>
+  </li>
+
+  <!-- <li class="nav-item">
+    <a class="nav-link d-flex align-items-center text-white p-2 mb-3 rounded hover-effect" routerLink="/admin/historique-pointage">
+      <i class="fa-solid fa-clock-rotate-left me-2"></i>
+      <span class="link_name">Historique Pointage</span>
+    </a>
+  </li> -->
+
+  <li class="nav-item">
+    <a class="nav-link d-flex align-items-center text-white p-2 mb-3 rounded hover-effect" routerLink="/admin/recap">
+      <i class='bx bx-receipt me-2'></i>
+      <span class="link_name">Récap</span>
+    </a>
+  </li>
+</ul>

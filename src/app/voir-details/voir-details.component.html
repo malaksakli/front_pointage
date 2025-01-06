@@ -1,0 +1,59 @@
+<div class="container mt-5">
+    <div class="card shadow p-4">
+      <!-- Title -->
+      <div class="card-header bg-primary text-white">
+        <h2 class="mb-0">Détails de l'employé</h2>
+      </div>
+  
+      <!-- Employee Details -->
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-6"><strong>Matricule:</strong> {{ selectedEmployee?.matr }}</div>
+          <div class="col-md-6"><strong>Nom et prénom:</strong> {{ selectedEmployee?.nomEtPrenom }}</div>
+          <div class="col-md-6"><strong>Nom et prénom du père:</strong> {{ selectedEmployee?.nomEtPrenomPere }}</div>
+          <div class="col-md-6"><strong>Numéro de téléphone:</strong> {{ selectedEmployee?.ntel }}</div>
+          <div class="col-md-6"><strong>Service:</strong> {{ selectedEmployee?.serv }}</div>
+          <div class="col-md-6"><strong>Nom du chef:</strong> {{ selectedEmployee?.nomDeChef }}</div>
+          <div class="col-md-6"><strong>Classe:</strong> {{ selectedEmployee?.classe }}</div>
+          <div class="col-md-6"><strong>Date de naissance:</strong> {{ selectedEmployee?.DateNais }}</div>
+          <div class="col-md-6"><strong>Genre:</strong> {{ selectedEmployee?.sf }}</div>
+          <div class="col-md-6"><strong>État civil:</strong> {{ selectedEmployee?.etat }}</div>
+          <div class="col-md-6"><strong>Nombre d'enfants:</strong> {{ selectedEmployee?.nbEnf }}</div>
+          <div class="col-md-6"><strong>Date de recrutement:</strong> {{ selectedEmployee?.DateRecr }}</div>
+          <div class="col-md-6"><strong>Fin de contrat:</strong> {{ selectedEmployee?.FinContr }}</div>
+          <div class="col-md-6"><strong>Alerte:</strong> {{ selectedEmployee?.alerte }}</div>
+          <div class="col-md-6"><strong>Quitte le:</strong> {{ selectedEmployee?.quitteLe }}</div>
+          <div class="col-md-6"><strong>CIN:</strong> {{ selectedEmployee?.cin }}</div>
+          <div class="col-md-6"><strong>Type de contrat:</strong> {{ selectedEmployee?.typeDeContrat }}</div>
+          <div class="col-md-6"><strong>Pointure:</strong> {{ selectedEmployee?.pointure }}</div>
+          <div class="col-md-6"><strong>Taille:</strong> {{ selectedEmployee?.taille }}</div>
+          <div class="col-md-12"><strong>Remarque:</strong> {{ selectedEmployee?.remarque }}</div>
+          <div class="col-md-6">
+            <strong>Test:</strong> {{ selectedEmployee?.test ? 'Oui' : 'Non' }}
+          </div>
+          <div class="col-md-6">
+            <strong>Domiciliation irré-salaire:</strong> {{ selectedEmployee?.domiciIrreSalaire ? 'Oui' : 'Non' }}
+          </div>
+        </div>
+  
+        <!-- Alert -->
+        <div *ngIf="alerte === 1" class="alert alert-warning mt-4">
+          <i class="fas fa-exclamation-circle me-2"></i>
+          La date de fin de contrat est proche (15 jours ou moins). Veuillez envisager un nouveau contrat.
+        </div>
+      </div>
+  
+      <!-- Back Button -->
+      <div class="card-footer text-end" *ngIf="isAdmin">
+        <button class="btn btn-secondary" (click)="retour()">
+          <i class="fas fa-arrow-left me-2"></i>Retour
+        </button>
+      </div>
+      <div class="card-footer text-end" *ngIf="!isAdmin">
+        <a class="btn btn-secondary" role="button" routerLink="/user/liste-employee">
+          <i class="fas fa-arrow-left me-2"></i>Retour
+        </a>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,24 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3" style="padding:15px;">
+  <div class="container-fluid">
+    <!-- Sidebar Toggle Button (for mobile or side navigation) -->
+    <div class="side-nav-button p-2 me-3 text-light" (click)="ysideNavToggled()">
+      <i class="fa-solid fa-bars"></i>
+    </div>
+
+    <!-- Logo or Brand Name -->
+    <a class="navbar-brand ">Blachere</a>
+
+    <!-- Profile Dropdown for User Options -->
+    <div class="ms-auto d-flex">
+      <div class="profile-logo dropdown">
+        <button class="btn btn-outline-light dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa-solid fa-user"></i> <!-- User Icon -->
+        </button>
+        <!-- Right-aligned dropdown menu -->
+        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="profileDropdown">
+          <li><a class="dropdown-item" role="button" (click)="onLogout()">Déconnexion</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

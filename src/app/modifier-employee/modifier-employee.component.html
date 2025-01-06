@@ -1,0 +1,198 @@
+<div class="container py-3">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white ">
+      <h2 class="mb-0">Modifier Employé</h2>
+    </div>
+    <div class="card-body">
+      <!-- Success Message -->
+      <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+      <form [formGroup]="employeForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="matr" class="form-label">Matricule</label>
+            <input id="matr" type="text" class="form-control" formControlName="matr"  />
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="nomEtPrenom" class="form-label">Nom et prénom de l'employé</label>
+            <input id="nomEtPrenom" type="text" class="form-control" formControlName="nomEtPrenom" />
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="sf" class="form-label">Genre</label>
+            <select id="sf" class="form-select" formControlName="sf">
+              <option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
+            </select>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="cin" class="form-label">Carte d'identité nationale (CIN)</label>
+            <input id="cin" type="text" class="form-control" formControlName="cin" />
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="DateNais" class="form-label">Date de naissance</label>
+            <input id="DateNais" type="date" class="form-control" formControlName="DateNais" (change)="calculateAge()" />
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="quitteLe" class="form-label">Quite le</label>
+            <input id="quitteLe" type="date" class="form-control" formControlName="quitteLe" (change)="calculateAge()" />
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="ntel" class="form-label">Numéro de téléphone</label>
+            <input id="ntel" type="text" class="form-control" formControlName="ntel" />
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="etat" class="form-label">État civil</label>
+            <select id="etat" class="form-select" formControlName="etat">
+              <option *ngFor="let etatCivil of etatsCivil" [value]="etatCivil">{{ etatCivil }}</option>
+            </select>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="nbEnf" class="form-label">Nombre d'enfants</label>
+            <input id="nbEnf" type="number" class="form-control" formControlName="nbEnf" />
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="nomEtPrenomPere" class="form-label">Nom et prénom du père</label>
+            <input id="nomEtPrenomPere" type="text" class="form-control" formControlName="nomEtPrenomPere" />
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="serv" class="form-label">Service</label>
+            <select id="serv" class="form-select" formControlName="serv">
+              <option *ngFor="let service of services" [value]="service">{{ service }}</option>
+            </select>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="nomDeChef" class="form-label">Nom du chef</label>
+            <select id="nomDeChef" class="form-select" formControlName="nomDeChef">
+              <option *ngFor="let chef of chefs" [value]="chef">{{ chef }}</option>
+            </select>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="classe" class="form-label">Classe</label>
+            <select id="classe" class="form-select" formControlName="classe">
+              <option *ngFor="let classe of classes" [value]="classe">{{ classe }}</option>
+            </select>
+          </div>
+
+         
+          <div class="col-md-6 mb-3">
+            <label for="domiciIrreSalaire" class="form-label m-2">Domiciliation irréparable salaire </label>
+            <div class="form-check form-check-inline">
+              <input 
+                class="form-check-input" 
+                type="radio" 
+                id="oui" 
+                formControlName="domiciIrreSalaire" 
+                [value]="true" 
+              />
+              <label class="form-check-label" for="oui">Oui</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input 
+                class="form-check-input" 
+                type="radio" 
+                id="non" 
+                formControlName="domiciIrreSalaire" 
+                [value]="false" 
+              />
+              <label class="form-check-label" for="non">Non</label>
+            </div>
+          </div>
+      
+          <div class="col-md-6 mb-3">
+            <label for="test" class="form-label m-2">Test </label>
+            <div class="form-check form-check-inline">
+              <input 
+                class="form-check-input" 
+                type="radio" 
+                id="oui" 
+                formControlName="test" 
+                [value]="true" 
+              />
+              <label class="form-check-label" for="oui">Oui</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input 
+                class="form-check-input" 
+                type="radio" 
+                id="non" 
+                formControlName="test" 
+                [value]="false" 
+              />
+              <label class="form-check-label" for="non">Non</label>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="Age" class="form-label">Âge</label>
+            <input id="Age" type="text" class="form-control" formControlName="Age"  />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="typeDeContrat" class="form-label">Type de contrat</label>
+            <select id="typeDeContrat" class="form-select" formControlName="typeDeContrat">
+              <option *ngFor="let typeContrat of typesContrat" [value]="typeContrat">{{ typeContrat }}</option>
+            </select>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="DateRecr" class="form-label">Date de recrutement</label>
+            <input id="DateRecr" type="date" class="form-control" formControlName="DateRecr" />
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="FinContr" class="form-label">Fin de contrat</label>
+            <input id="FinContr" type="date" class="form-control" formControlName="FinContr" />
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="taille" class="form-label">Taille</label>
+            <input id="taille" type="number" class="form-control" formControlName="taille" />
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="pointure" class="form-label">Pointure</label>
+            <input id="pointure" type="number" class="form-control" formControlName="pointure" />
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="modePay" class="form-label">Mode de paiement</label>
+            <select id="modePay" class="form-select" formControlName="modePay">
+              <option *ngFor="let mode of modesPaiement" [value]="mode">{{ mode }}</option>
+            </select>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="bank" class="form-label">Banque</label>
+            <input id="bank" type="text" class="form-control" formControlName="bank" />
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="rib" class="form-label">RIB</label>
+            <input id="rib" type="text" class="form-control" formControlName="rib" />
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="remarque" class="form-label">Remarque</label>
+            <textarea id="remarque" class="form-control" formControlName="remarque"></textarea>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <button type="submit" class="btn btn-success">Enregistrer les modifications</button>
+          <button type="button" class="btn btn-secondary" (click)="retour()">Retour</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

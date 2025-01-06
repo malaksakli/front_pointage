@@ -1,0 +1,118 @@
+<div class="container mt-5" #printSection>
+  <!-- Header Section -->
+  <div class="shadow p-4 rounded bg-light">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="text-primary">Fiche Suivie de {{ selectedEmployee?.nomEtPrenom }}</h2>
+      <button class="btn btn-primary" (click)="printPage()">
+        <i class="fas fa-print me-2"></i>Imprimer
+      </button>
+    </div>
+
+    <!-- Employee Information -->
+    <div class="row g-3">
+      <div class="col-md-6"><strong>Matricule:</strong> {{ selectedEmployee?.matr }}</div>
+      <div class="col-md-6"><strong>Nom et prénom:</strong> {{ selectedEmployee?.nomEtPrenom }}</div>
+      <div class="col-md-6"><strong>CIN:</strong> {{ selectedEmployee?.cin }}</div>
+      <div class="col-md-6"><strong>Numéro de téléphone:</strong> {{ selectedEmployee?.ntel }}</div>
+      <div class="col-md-6"><strong>Nom et prénom du père:</strong> {{ selectedEmployee?.nomEtPrenomPere }}</div>
+      <div class="col-md-6"><strong>Genre:</strong> {{ selectedEmployee?.sf }}</div>
+      <div class="col-md-6"><strong>État civil:</strong> {{ selectedEmployee?.etat }}</div>
+      <div class="col-md-6"><strong>Date de naissance:</strong> {{ selectedEmployee?.DateNais }}</div>
+      <div class="col-md-6"><strong>Nombre d'enfants:</strong> {{ selectedEmployee?.nbEnf }}</div>
+      <div class="col-md-6"><strong>Classe:</strong> {{ selectedEmployee?.classe }}</div>
+      <div class="col-md-6"><strong>Service:</strong> {{ selectedEmployee?.serv }}</div>
+      <div class="col-md-6"><strong>Nom du chef:</strong> {{ selectedEmployee?.nomDeChef }}</div>
+      <div class="col-md-6">
+        <strong>Domiciliation irré-salaire:</strong>
+        {{ selectedEmployee?.domiciIrreSalaire ? 'Oui' : 'Non' }}
+      </div>
+      <div class="col-md-6"><strong>Date de recrutement:</strong> {{ selectedEmployee?.DateRecr }}</div>
+      <div class="col-md-6"><strong>Test:</strong> {{ selectedEmployee?.test ? 'Oui' : 'Non' }}</div>
+    </div>
+
+    <!-- Alert Section -->
+    <div *ngIf="alert === 1" class="alert alert-warning mt-4">
+      <i class="fas fa-exclamation-circle me-2"></i><strong>Alerte:</strong> Fin de contrat imminente.
+    </div>
+
+    <!-- Year Selection -->
+    <div class="my-4 d-flex justify-content-between">
+      <!-- Year Selection -->
+      <div class="me-3" style="flex-basis: 45%;">
+        <label for="yearSelect" class="form-label">Choisissez l'année:</label>
+        <select id="yearSelect" class="form-select" [(ngModel)]="selectedYear" (change)="onYearChange()">
+          <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+        </select>
+      </div>
+
+      <!-- Month Selection -->
+      <div style="flex-basis: 45%;">
+        <label for="monthSelect" class="form-label">Choisissez mois:</label>
+        <select id="monthSelect" class="form-select" [(ngModel)]="selectmois" (change)="onMonthChange()">
+          <option *ngFor="let m of mois" [value]="m">{{ m }}</option>
+        </select>
+      </div>
+    </div>
+    <!-- Attendance Table -->
+    <div class="table-responsive" *ngIf="selectedEmpl" >
+      <table class="table table-striped table-hover text-center">
+        <thead class="table-primary">
+          <tr>
+            <th>Mois</th>
+            <th>Présent</th>
+            <th>Absent Non Justifié</th>
+            <th>Absent Court Terme</th>
+            <th>Absent Long Terme</th>
+            <th>Absent AUT</th>
+            <th>Absent PAY</th>
+            <th>Autorisation</th>
+            <th>Retard</th>
+            <th>Retard Autorisé</th>
+            <th>Congé</th>
+            <th>Mise à Pied</th>
+            <th>Jour Férié</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr >
+            <td>{{ selectedEmpl.mois }}</td>
+            <td>{{ selectedEmpl.Present }}</td>
+            <td>{{ selectedEmpl.Absent_Non_Justifie }}</td>
+            <td>{{ selectedEmpl.Absent_Court_Terme }}</td>
+            <td>{{ selectedEmpl.Absent_Long_Terme }}</td>
+            <td>{{ selectedEmpl.Absent_AUT }}</td>
+           
+          
+       
+            <td>{{ selectedEmpl.Absent_PAY }}</td>
+            <td>{{ selectedEmpl.Autorisation }}</td>
+            <td>{{ selectedEmpl.Retard }}</td>
+            <td>{{ selectedEmpl.Retard_Autorise }}</td>
+            <td>{{ selectedEmpl.Conge }}</td>
+          
+         
+        
+            <td>{{ selectedEmpl.Mise_a_Pied }}</td>
+            <td>{{ selectedEmpl.Jour_Ferie }}</td>
+          </tr>
+          
+          
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="!selectedEmpl" class="alert alert-info">
+      <i class="fas fa-info-circle me-2"></i> Aucune donnée de pointage disponible pour cet employé.
+    </div>
+    <!-- Return Button -->
+    <div class="text-end mt-4" *ngIf="isAdmin">
+      <button class="btn btn-secondary" (click)="retour()">
+        <i class="fas fa-arrow-left me-2"></i>Retour
+      </button>
+    </div>
+    <div class="text-end mt-4" *ngIf="!isAdmin">
+      <a class="btn btn-secondary" role="button" routerLink="/user/liste-employee">
+        <i class="fas fa-arrow-left me-2"></i>Retour
+      </a>
+    </div>
+  </div>
+</div>

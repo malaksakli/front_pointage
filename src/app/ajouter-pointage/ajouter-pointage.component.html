@@ -1,0 +1,71 @@
+<div class="container mt-4 py-3">
+    <div class="card shadow">
+      <h2 class="card-header bg-primary text-white">Ajouter Pointage</h2>
+      <div class="card-body">
+        <form [formGroup]="pointageForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            
+            <!-- Date -->
+            <div class="col-md-4 mb-3">
+              <label for="date" class="form-label">Date Pointage</label>
+              <input type="date" id="date" formControlName="date" class="form-control" />
+              <div *ngIf="pointageForm.get('date')?.invalid && pointageForm.get('date')?.touched" class="text-danger">
+                Date est requise.
+              </div>
+            </div>
+            
+            <!-- Mois -->
+            <div class="col-md-4 mb-3">
+              <label for="mois" class="form-label">Mois</label>
+              <input type="number" id="mois" formControlName="mois" class="form-control" />
+              <div *ngIf="pointageForm.get('mois')?.invalid && pointageForm.get('mois')?.touched" class="text-danger">
+                Mois est requis (1-12).
+              </div>
+            </div>
+            
+            <!-- Année -->
+            <div class="col-md-4 mb-3">
+              <label for="annee" class="form-label">Année</label>
+              <input type="number" id="annee" formControlName="annee" class="form-control" />
+              <div *ngIf="pointageForm.get('annee')?.invalid && pointageForm.get('annee')?.touched" class="text-danger">
+                Année valide requise.
+              </div>
+            </div>
+  
+            <!-- Service -->
+            <div class="col-md-6 mb-3">
+              <label for="serv" class="form-label">Service</label>
+              <select id="serv" class="form-select" formControlName="serv">
+                <option *ngFor="let service of services" [value]="service">{{ service }}</option>
+              </select>
+            </div>
+  
+            <!-- Heures Travaillées -->
+            <div class="col-md-6 mb-3">
+              <label for="heuresTravaillees" class="form-label">Heures Travaillées</label>
+              <input type="number" id="heuresTravaillees" formControlName="heuresTravaillees" class="form-control" />
+              <div *ngIf="pointageForm.get('heuresTravaillees')?.invalid && pointageForm.get('heuresTravaillees')?.touched" class="text-danger">
+                Heures travaillées requises.
+              </div>
+            </div>
+  
+            <!-- Other Fields -->
+            <div class="col-md-3 mb-3" *ngFor="let field of ['ret', 'pres', 'retEtAut', 'absNj', 'absCt', 'absLt', 'absAut', 'absPay', 'cgAnn', 'maPied', 'jf', 'at']">
+              <label [for]="field" class="form-label">{{ field | titlecase }}</label>
+              <input type="number" [id]="field" [formControlName]="field" class="form-control" />
+              <div *ngIf="pointageForm.get(field)?.invalid && pointageForm.get(field)?.touched" class="text-danger">
+                {{ field | titlecase }} est requis.
+              </div>
+            </div>
+            
+          </div>
+          
+          <button type="submit" class="btn btn-primary mt-3" [disabled]="pointageForm.invalid">Ajouter Pointage</button>
+        
+          <!-- Retour Button (Inline) -->
+          <button type="button" class="btn btn-secondary mt-3 ms-2" (click)="goBack()">Retour</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  

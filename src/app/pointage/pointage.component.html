@@ -1,0 +1,244 @@
+<div class="container my-4">
+  <div class="header d-flex justify-content-between align-items-center mb-3">
+    <button class="btn btn-primary" (click)="printPage()">Imprimer</button>
+    <div class="d-flex align-items-center">
+      <label for="fileInput" class="btn btn-outline-primary me-2">Importer un fichier</label>
+      <input type="file" id="fileInput" (change)="onFileSelected($event)" hidden>
+    </div>
+  </div>
+
+  <div class="display-area p-3 border rounded">
+    <div class="current-date mb-3">
+      <h5>Date d'aujourd'hui : <strong>{{ currentDate | date: 'dd/MM/yyyy' }}</strong></h5>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <input
+          type="text"
+          [(ngModel)]="searchNom"
+          placeholder="Rechercher par nom"
+          class="form-control"
+          (input)="rechercherParNom()"
+        />
+      </div>
+      <div class="col-md-6">
+        <input
+          type="text"
+          [(ngModel)]="searchMatricule"
+          placeholder="Rechercher par matricule"
+          class="form-control"
+          (input)="rechercherParMatricule()"
+        />
+      </div>
+    </div>
+
+    <form [formGroup]="pointageForm" (ngSubmit)="onSubmit()">
+      <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th>Matricule</th>
+            <th>Nom et Prénom</th>
+            <th>Téléphone</th>
+            <th>Service</th>
+            <th>Remarque</th>
+            <th>Liste Pointage</th>
+            <th>Ajouter</th>
+            <!-- <th>autre</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let employee of employees; let i = index">
+            <td>{{ employee.matr }}</td>
+            <td>{{ employee.nomEtPrenom }}</td>
+            <td>{{ employee.ntel }}</td>
+            <td>{{ employee.serv }}</td>
+            <td>{{ employee.remarque }}</td>
+            <td>
+              <button
+                class="btn btn-sm btn-success"
+                (click)="openModalPointage(employee.matr)"
+              >
+                List Pointage
+              </button>
+            </td>
+            <td>
+              <button
+                class="btn btn-sm btn-primary"
+                (click)="openAjouterPointage(employee.matr)"
+              >
+                Ajouter Pointage
+              </button>
+            </td>
+            <!-- <td>  <button (click)="autres(employee.nomEtPrenom ,employee.matr )" class="btn btn-info btn-sm">
+              <i class="fa-solid fa-plus"></i> autres
+          </button></td> -->
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Liste des Pointages</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- Show table only if there are pointages -->
+        <table *ngIf="selectedPointages.length > 0" class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>Mois</th>
+              <th>Présent</th>
+              <th> Autorisation</th>
+              <th>Absent Non Justifié</th>
+              <th>Absent Court Terme</th>
+              <th>Absent Long Terme</th>
+              <th>Absent AUT</th>
+              <th>Absent PAY</th>
+              <th>Retard</th>
+              <th>Retard Autorisé</th>
+              <th>Congé</th>
+              <th>Mise à Pied</th>
+              <th>Jour Férié</th>
+              <th>Date Pointage</th>
+              <th>Modifier</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let etat of selectedPointages">
+              <td>{{ etat.mois }}</td>
+              <td>{{ etat.pres }}</td>
+              <td>{{ etat.at }}</td>
+              <td>{{ etat.absNj }}</td>
+              <td>{{ etat.absCt }}</td>
+              <td>{{ etat.absLt }}</td>
+              <td>{{ etat.absAut }}</td>
+              <td>{{ etat.absPay }}</td>
+              <td>{{ etat.ret }}</td>
+              <td>{{ etat.retEtAut }}</td>
+              <td>{{ etat.cgAnn }}</td>
+              <td>{{ etat.maPied }}</td>
+              <td>{{ etat.jf }}</td>
+            
+              <td>{{ etat.date }}</td>
+              <td>
+                <button type="button" class="btn btn-success" (click)="copyid(etat.id)" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">
+                  Modifier
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Message if no pointages -->
+        <div *ngIf="selectedPointages.length === 0" class="text-center">
+          <p>Aucun pointage disponible.</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalToggleLabel2">Modifier Pointage</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="pointageFormupdate" (ngSubmit)="updatePointage()">
+          <div class="row">
+            
+            <!-- Date -->
+            <div class="col-md-4 mb-3">
+              <label for="date" class="form-label">Date Pointage</label>
+              <input type="date" id="date" formControlName="date" class="form-control" />
+              <div *ngIf="pointageForm.get('date')?.invalid && pointageForm.get('date')?.touched" class="text-danger">
+                Date est requise.
+              </div>
+            </div>
+            
+            <!-- Mois -->
+            <div class="col-md-4 mb-3">
+              <label for="mois" class="form-label">Mois</label>
+              <input type="number" id="mois" formControlName="mois" class="form-control" />
+              <div *ngIf="pointageForm.get('mois')?.invalid && pointageForm.get('mois')?.touched" class="text-danger">
+                Mois est requis (1-12).
+              </div>
+            </div>
+            
+            <!-- Année -->
+            <div class="col-md-4 mb-3">
+              <label for="annee" class="form-label">Année</label>
+              <input type="number" id="annee" formControlName="annee" class="form-control" />
+              <div *ngIf="pointageForm.get('annee')?.invalid && pointageForm.get('annee')?.touched" class="text-danger">
+                Année valide requise.
+              </div>
+            </div>
+  
+            <!-- Service -->
+            <div class="col-md-6 mb-3">
+              <label for="serv" class="form-label">Service</label>
+              <select id="serv" class="form-select" formControlName="serv">
+                <option *ngFor="let service of services" [value]="service">{{ service }}</option>
+              </select>
+            </div>
+  
+            <!-- Heures Travaillées -->
+            <div class="col-md-6 mb-3">
+              <label for="heuresTravaillees" class="form-label">Heures Travaillées</label>
+              <input type="number" id="heuresTravaillees" formControlName="heuresTravaillees" class="form-control" />
+              <div *ngIf="pointageForm.get('heuresTravaillees')?.invalid && pointageForm.get('heuresTravaillees')?.touched" class="text-danger">
+                Heures travaillées requises.
+              </div>
+            </div>
+  
+            <!-- Other Fields -->
+            <div class="col-md-3 mb-3" *ngFor="let field of ['ret', 'pres', 'retEtAut', 'absNj', 'absCt', 'absLt', 'absAut', 'absPay', 'cgAnn', 'maPied', 'jf', 'at']">
+              <label [for]="field" class="form-label">{{ field | titlecase }}</label>
+              <input type="number" [id]="field" [formControlName]="field" class="form-control" />
+              <div *ngIf="pointageForm.get(field)?.invalid && pointageForm.get(field)?.touched" class="text-danger">
+                {{ field | titlecase }} est requis.
+              </div>
+            </div>
+            
+          </div>
+          
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">
+    
+              Fermer
+            </button>
+            <button type="submit" class="btn btn-primary" [disabled]="pointageFormupdate.invalid">Modifier Pointage</button>
+
+          </div>
+          <!-- Retour Button (Inline) -->
+        </form>
+      </div>
+   
+    </div>
+  </div>
+</div>
+
+
